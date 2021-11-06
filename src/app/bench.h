@@ -38,11 +38,19 @@ public:
         ++mMeasureCount;
         show_tags(measurementName);
         mStartTime = clock::now();
+        mRunTime = {};
+    }
+
+    inline void pauseMeasure() {
+        mRunTime += clock::now() - mStartTime;
+    }
+    inline void unpauseMeasure() {
+        mStartTime = clock::now();
     }
 
     inline void endMeasure(uint64_t expected_result, uint64_t actual_result) {
-        auto const end = clock::now();
-        show_result(end, expected_result, actual_result);
+        pauseMeasure();
+        show_result(expected_result, actual_result);
     }
 
 private:
@@ -56,8 +64,8 @@ private:
         std::cout.flush();
     }
 
-    BENCHMARK_NOINLINE void show_result(clock::time_point end, uint64_t expected_result, uint64_t actual_result) {
-        auto runtime_sec = std::chrono::duration<double>(end - mStartTime).count();
+    BENCHMARK_NOINLINE void show_result(uint64_t expected_result, uint64_t actual_result) {
+        auto runtime_sec = mRunTime.count();
 
         auto peakRss = getPeakRSS();
         if (peakRss > mInitialPeakRss) {
@@ -74,6 +82,7 @@ private:
     }
 
     clock::time_point mStartTime;
+	std::chrono::duration<double> mRunTime;
     const char* mSep = "; ";
     const char* mQuote = "\"";
     std::string const mTestName;

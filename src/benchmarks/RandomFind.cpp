@@ -36,6 +36,7 @@ uint64_t randomFindInternal(Bench& bench, size_t numRandom, uint64_t bitMask, si
 
         bench.beginMeasure(title.c_str());
         do {
+            bench.pauseMeasure();
             // insert NumTotal entries: some random, some sequential.
             std::shuffle(insertRandom.begin(), insertRandom.end(), rng);
             for (bool isRandomToInsert : insertRandom) {
@@ -47,6 +48,7 @@ uint64_t randomFindInternal(Bench& bench, size_t numRandom, uint64_t bitMask, si
                 }
                 ++i;
             }
+            bench.unpauseMeasure();
 
             // the actual benchmark code which sohould be as fast as possible
             for (size_t j = 0; j < numFindsPerIter; ++j) {

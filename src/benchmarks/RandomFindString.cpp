@@ -42,6 +42,7 @@ uint64_t randomFindInternalString(Bench& bench, size_t numRandom, size_t const l
         bench.beginMeasure(title.c_str());
         do {
 
+            bench.pauseMeasure();
             // insert NumTotal entries: some random, some sequential.
             std::shuffle(insertRandom.begin(), insertRandom.end(), rng);
             for (bool isRandomToInsert : insertRandom) {
@@ -54,6 +55,7 @@ uint64_t randomFindInternalString(Bench& bench, size_t numRandom, size_t const l
                 map[str] = static_cast<size_t>(1);
                 ++i;
             }
+            bench.unpauseMeasure();
 
             // the actual benchmark code which sohould be as fast as possible
             for (size_t j = 0; j < numFindsPerIter; ++j) {
