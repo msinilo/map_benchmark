@@ -45,4 +45,3 @@
 [submodule "external/rde_RDESTL"]
 	path = external/rde_RDESTL
 	url = https://github.com/msinilo/rdestl.git
-	branch = master
