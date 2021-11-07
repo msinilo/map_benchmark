@@ -42,3 +42,7 @@
 	path = external/greg7mdp__parallel-hashmap
 	url = https://github.com/greg7mdp/parallel-hashmap
 	branch = master
+[submodule "external/rde_RDESTL"]
+	path = external/rde_RDESTL
+	url = https://github.com/msinilo/rdestl.git
+	branch = master
